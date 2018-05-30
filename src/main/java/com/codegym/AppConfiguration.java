@@ -10,6 +10,8 @@ import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.data.web.config.EnableSpringDataWebSupport;
 import org.springframework.http.MediaType;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.jpa.JpaTransactionManager;
@@ -17,6 +19,7 @@ import org.springframework.orm.jpa.JpaVendorAdapter;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.servlet.View;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
@@ -35,12 +38,13 @@ import java.util.Locale;
 import java.util.Properties;
 import org.springframework.web.servlet.config.annotation.ContentNegotiationConfigurer;
 
-import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
-
 
 @Configuration
-@ComponentScan("com.codegym.controller")
 @EnableWebMvc
+@EnableTransactionManagement
+@EnableJpaRepositories("com.codegym.repository")
+@ComponentScan("com.codegym")
+@EnableSpringDataWebSupport
 public class AppConfiguration extends WebMvcConfigurerAdapter implements ApplicationContextAware{
 
     @Bean
@@ -72,20 +76,6 @@ public class AppConfiguration extends WebMvcConfigurerAdapter implements Applica
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
         this.applicationContext = applicationContext;
     }
-
-    @Override
-    public void configureContentNegotiation (ContentNegotiationConfigurer configurer){
-        configurer.favorPathExtension(true)
-                .useJaf(false)
-                .ignoreAcceptHeader(true)
-                .mediaType("html", MediaType.TEXT_HTML)
-                .mediaType("json", MediaType.APPLICATION_JSON)
-                .defaultContentType(MediaType.TEXT_HTML);
-    }
-//    @Bean
-//    public void configureContentNegotiation(ContentNegotiationConfigurer configurer) {
-//        configurer.defaultContentType(MediaType.APPLICATION_XML);
-//    }
 
     //JPA configuration
     @Bean
@@ -131,20 +121,9 @@ public class AppConfiguration extends WebMvcConfigurerAdapter implements Applica
         return properties;
     }
 
-
-    public class JsonViewResolver implements ViewResolver {
-        public View resolveViewName(String viewName, Locale locale)
-                throws Exception {
-            MappingJackson2JsonView view = new MappingJackson2JsonView();
-            view.setPrettyPrint(true);
-            return view;
-        }
+    @Bean
+    public SmartphoneService smartphoneService(){
+        return new SmartphoneServiceImpl();
     }
-
-//    @Bean
-//    public SmartphoneService smartphoneService(){
-//        return new SmartphoneServiceImpl();
-//    }
-
 
 }
