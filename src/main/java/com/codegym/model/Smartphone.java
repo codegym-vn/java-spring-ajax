@@ -15,19 +15,7 @@ public class Smartphone {
 	private String model;
 	
 	private double price;
-	
-	/**
-	 * Method updates already existed {@link Smartphone} object with values from the inputed argument.
-	 * @param sPhone - Object which contains new Smartphone values.
-	 * @return {@link Smartphone} object to which this method applied.
-	 */
-	public Smartphone update(Smartphone sPhone) {
-		this.producer = sPhone.producer;
-		this.model = sPhone.model;
-		this.price = sPhone.price;
-		return this;
-	}
-	
+
 	@Override
 	public String toString() {
 		return producer+": "+model+" with price "+price;
