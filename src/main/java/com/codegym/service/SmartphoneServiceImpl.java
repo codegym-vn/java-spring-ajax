@@ -24,7 +24,9 @@ public class SmartphoneServiceImpl implements SmartphoneService {
     }
 
     @Override
-    public void remove(Integer id) {
+    public Smartphone remove(Integer id) {
+        Smartphone smartphone = findById(id);
         smartphoneRepository.delete(id);
+        return smartphone;
     }
 }

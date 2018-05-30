@@ -2,45 +2,54 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <title>Create new Smartphone</title>
+    <title>Edit Smartphone</title>
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     <script type="text/javascript">
+
         $(document).ready(function() {
-            $('#newSmartphoneForm').submit(function(event) {
+
+            $('#editSmartphoneForm').submit(function(event) {
+
                 var producer = $('#producer').val();
                 var model = $('#model').val();
                 var price = $('#price').val();
                 var json = { "producer" : producer, "model" : model, "price": price};
+
                 $.ajax({
-                    headers: {
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json'
-                    },
-                    type : "POST",
+                    url: $("#editSmartphoneForm").attr( "action"),
                     data: JSON.stringify(json),
-                    url: "/smartphones/createnewPhone",
+                    type: "PUT",
+
+                    beforeSend: function(xhr) {
+                        xhr.setRequestHeader("Accept", "application/json");
+                        xhr.setRequestHeader("Content-Type", "application/json");
+                    },
                     success: function(smartphone) {
                         var respContent = "";
-                        respContent += "<span class='success'>Smartphone was created: [";
+
+                        respContent += "<span class='success'>Smartphone was edited: [";
                         respContent += smartphone.producer + " : ";
                         respContent += smartphone.model + " : " ;
-                        respContent += smartphone.price + "]</span>"
+                        respContent += smartphone.price + "]</span>";
+
                         $("#sPhoneFromResponse").html(respContent);
                     }
                 });
+
                 event.preventDefault();
             });
+
         });
     </script>
 </head>
 <body>
 <div id="container">
-    <h1>Create new Smartphone</h1>
+    <h1>Edit Smartphone</h1>
     <div>
-        <p>Here you can create new Smartphone:</p>
+        <p>Here you can edit Smartphone info:</p>
         <div id="sPhoneFromResponse"></div>
     </div>
-    <form id="newSmartphoneForm" th:object="${sPhone}">
+    <form id="editSmartphoneForm" th:object="${sPhone}">
         <table>
             <tbody>
             <tr>
@@ -63,7 +72,7 @@
                 <td><input th:field="*{price}" /></td>
             </tr>
             <tr>
-                <td><input type="submit" value="Create" /></td>
+                <td><input type="submit" value="Edit" /></td>
                 <td></td>
             </tr>
             </tbody>

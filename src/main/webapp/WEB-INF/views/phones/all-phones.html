@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>List Smartphone</title>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var deleteLink = $("a:contains('Delete')");
+            $(deleteLink).click(function (event) {
+                $.ajax({
+                    url: $(event.target).attr("href"),
+                    type: "DELETE",
+                    beforeSend: function (xhr) {
+                        xhr.setRequestHeader("Accept", "application/json");
+                        xhr.setRequestHeader("Content-Type", "application/json");
+                    },
+                    success: function (smartphone) {
+                        var respContent = "";
+                        var rowToDelete = $(event.target).closest("tr");
+                        rowToDelete.remove();
+                        respContent += "<span class='success'>Smartphone was deleted: [";
+                        respContent += smartphone.producer + " : ";
+                        respContent += smartphone.model + " : ";
+                        respContent += smartphone.price + "]</span>";
+                        $("#sPhoneFromResponse").html(respContent);
+                    }
+                });
+
+                event.preventDefault();
+            });
+
+        });
+    </script>
+</head>
+<body>
+<div id="container">
+    <h1>All Smartphones</h1>
+    <a th:href="@{/smartphones/create}">Creat</a>
+    <div>
+        <p>Here you can see a list of Smartphones:</p>
+        <div id="sPhoneFromResponse"></div>
+    </div>
+    <table border="1px" cellpadding="0" cellspacing="0">
+        <thead>
+        <tr>
+            <th>Producer</th>
+            <th>Model</th>
+            <th>Price</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <th:block th:each="phone : ${allphones}">
+            <tr>
+                <td th:text="${phone.producer}"></td>
+                <td th:text="${phone.model}"></td>
+                <td th:text="${phone.price}"></td>
+                <td>
+                    <a th:href="@{/smartphones/edit/__${phone.id}__}">Edit</a><br/>
+                    <a th:href="@{/smartphones/delete/__${phone.id}__}">Delete</a><br/>
+                </td>
+            </tr>
+        </th:block>
+        </tbody>
+    </table>
+    <a th:href="@{/}">Home page</a>
+</div>
+</body>
+</html>

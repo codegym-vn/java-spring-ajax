@@ -10,5 +10,5 @@ public interface SmartphoneService {
 
 	Smartphone save(Smartphone phone);
 
-	void remove(Integer id);
+	Smartphone remove(Integer id);
 }
