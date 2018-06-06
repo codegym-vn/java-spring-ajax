@@ -47,7 +47,7 @@ public class SmartphoneController {
     }
 
     //	DElete
-    @RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE,
+    @RequestMapping(value = "/delete/{id}", method = RequestMethod.POST,
             produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public Smartphone deleteSmartphone(@PathVariable Integer id) {
@@ -63,7 +63,7 @@ public class SmartphoneController {
         return mav;
     }
 
-    @RequestMapping(value="/edit/{id}", method=RequestMethod.PUT,
+    @RequestMapping(value="/edit/{id}", method=RequestMethod.POST,
             produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public Smartphone editSmartphone(@PathVariable int id,

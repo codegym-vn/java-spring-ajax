@@ -10,7 +10,7 @@
             $(deleteLink).click(function (event) {
                 $.ajax({
                     url: $(event.target).attr("href"),
-                    type: "DELETE",
+                    type: "POST",
                     beforeSend: function (xhr) {
                         xhr.setRequestHeader("Accept", "application/json");
                         xhr.setRequestHeader("Content-Type", "application/json");
@@ -36,7 +36,7 @@
 <body>
 <div id="container">
     <h1>All Smartphones</h1>
-    <a th:href="@{/smartphones/create}">Creat</a>
+    <a th:href="@{/smartphones/create}">Create</a>
     <div>
         <p>Here you can see a list of Smartphones:</p>
         <div id="sPhoneFromResponse"></div>

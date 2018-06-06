@@ -1,7 +1,8 @@
 package com.codegym.service;
-import org.springframework.beans.factory.annotation.Autowired;
+
 import com.codegym.model.Smartphone;
 import com.codegym.repository.SmartphoneRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 
 public class SmartphoneServiceImpl implements SmartphoneService {
 
@@ -20,7 +21,7 @@ public class SmartphoneServiceImpl implements SmartphoneService {
 
     @Override
     public Smartphone save(Smartphone phone) {
-       return smartphoneRepository.save(phone);
+        return smartphoneRepository.save(phone);
     }
 
     @Override
